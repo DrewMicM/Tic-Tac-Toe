@@ -198,4 +198,7 @@ button.reset-game:hover {
   }
 }
 
+.square.highlight {
+  background-color: grey;
+}
 
