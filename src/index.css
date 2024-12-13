@@ -9,7 +9,7 @@
 body {
   font-family: sans-serif;
   background-color: #f4f4f4;
-  margin: 20px;
+  margin: 0;
   padding: 0;
   display: flex;
   justify-content: center;
@@ -19,34 +19,41 @@ body {
 
 /* Style for each square in the board */
 .square {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   border: 2px solid black;
   background-color: white;
   font-size: 2rem;
   font-weight: bold;
   cursor: pointer;
   text-align: center;
-  line-height: 50px; /* This centers text vertically */
+  line-height: 60px;
   display: flex;
-  justify-content: center; /* Centers text horizontally */
-  align-items: center;     /* Centers text vertically */
+  justify-content: center;
+  align-items: center;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 /* Hover effect on square */
 .square:hover {
   background-color: #f0f0f0;
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
+/* Highlight winning squares */
+.square.highlight {
+  background-color: grey; /* Golden highlight for winner */
+  border-color: grey;
+  transform: scale(1.1);
+  transition: transform 0.3s, background-color 0.3s ease;
+}
 
 /* Style for the game board container */
 .board {
   display: grid;
-  grid-template-columns: repeat(3, 50px);
-  grid-template-rows: repeat(3, 50px);
-  gap: 5px;
+  grid-template-columns: repeat(3, 60px);
+  grid-template-rows: repeat(3, 60px);
+  gap: 10px;
   margin-bottom: 20px;
 }
 
@@ -76,19 +83,21 @@ body {
   text-align: center;
   width: 100%;
   display: flex;
-  justify-content: center; /* Centers horizontally */
-  align-items: center;     /* Centers vertically */
-  flex-direction: column;  /* Stack score items vertically */
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
 }
 
 /* Style for individual score paragraph */
 .scores p {
   margin: 5px;
-  padding: 5px;
+  padding: 10px;
   background-color: #f1f1f1;
-  border-radius: 5px;
-  width: 150px;
+  border-radius: 50px;
+  width: 100px;
   text-align: center;
+  font-weight: bold;
+  color: #333;
 }
 
 /* Game info container (scores, buttons) */
@@ -101,18 +110,25 @@ body {
 
 /* Button general styles */
 button {
-  padding: 10px 20px;
+  padding: 10px;
   font-size: 1rem;
   margin: 5px;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  align-items: center;
+  background-color: grey;
   border: none;
+  color: black;
+  transition: background-color 0.3s ease;
 }
 
 /* Button hover effect */
 button:hover {
-  background-color: #e0e0e0;
+  background-color: #ccc;
+  color: black;
 }
 
 /* Disabled button styles */
@@ -133,43 +149,35 @@ button.next-game:hover {
 
 /* Style for the 'Reset Game' button */
 button.reset-game {
-  background-color: #ff9800;
+  background-color: grey;
   color: white;
 }
 
 button.reset-game:hover {
-  background-color: #fb8c00;
-}
-
-/* Style for the winner line highlight */
-.winner-line {
-  background-color: rgba(255, 165, 0, 0.3); /* Highlight winning line with a soft orange */
-  border: 2px solid orange;
-  font-weight: bold;
-}
-
-/* Style for squares in the winning line */
-.square.winner {
-  background-color: rgba(255, 165, 0, 0.2);
-  border-color: orange;
+  background-color: grey;
 }
 
 /* Responsive design for mobile */
 @media (max-width: 600px) {
   .board {
-    grid-template-columns: repeat(3, 60px);
-    grid-template-rows: repeat(3, 60px);
-    gap: 10px;
+    grid-template-columns: repeat(3, 50px);
+    grid-template-rows: repeat(3, 50px);
+    gap: 5px;
   }
 
   .square {
-    width: 60px;
-    height: 60px;
-    font-size: 2rem;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
   }
 
   .game {
     padding: 15px;
+  }
+
+  .scores p {
+    width: 80px;
+    font-size: 1rem;
   }
 }
 
@@ -194,11 +202,6 @@ button.reset-game:hover {
 @media (max-width: 600px) {
   .game-footer {
     font-size: 0.9rem;
-    padding: 15px;
+    padding: 10px;
   }
 }
-
-.square.highlight {
-  background-color: grey;
-}
-

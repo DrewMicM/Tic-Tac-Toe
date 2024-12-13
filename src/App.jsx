@@ -20,12 +20,7 @@ function Board({ xIsNext, squares, onPlay }) {
   }
 
   const { winner, winningLine } = calculateWinner(squares);
-  let status = '';
-  if (winner) {
-    status = 'Winner: ' + winner;
-  } else {
-    status = 'Next player: ' + (xIsNext ? 'X' : 'O');
-  }
+  const status = getStatus(winner, xIsNext);
 
   function isWinningSquare(i) {
     return winningLine && winningLine.includes(i);
@@ -61,11 +56,9 @@ export default function Game() {
 
   function handlePlay(nextSquares) {
     const { winner } = calculateWinner(nextSquares);
+
     if (winner) {
-      setScores((prevScores) => ({
-        ...prevScores,
-        [winner]: prevScores[winner] + 1,
-      }));
+      updateScores(winner);
     }
 
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
@@ -83,6 +76,13 @@ export default function Game() {
     handleNextGame();
   }
 
+  function updateScores(winner) {
+    setScores((prevScores) => ({
+      ...prevScores,
+      [winner]: prevScores[winner] + 1,
+    }));
+  }
+
   return (
     <div className="game">
       <div className="game-board">
@@ -90,8 +90,8 @@ export default function Game() {
       </div>
       <div className="game-info">
         <div className="scores">
-          <p>Score X : {scores.X}</p>
-          <p>Score O : {scores.O}</p>
+          <p>X : {scores.X}</p>
+          <p>O : {scores.O}</p>
         </div>
         <div className="buttons">
           <button onClick={handleResetScores}>Reset Game</button>
@@ -127,4 +127,11 @@ function calculateWinner(squares) {
   }
 
   return { winner: null, winningLine: null };
+}
+
+function getStatus(winner, xIsNext) {
+  if (winner) {
+    return 'Winner: ' + winner;
+  }
+  return 'Next player: ' + (xIsNext ? 'X' : 'O');
 }
