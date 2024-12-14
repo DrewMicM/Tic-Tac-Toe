@@ -43,7 +43,17 @@ function Board({ xIsNext, squares, onPlay }) {
   );
 }
 
+function MainMenu({ onStartGame }) {
+  return (
+    <div className="main-menu">
+      <h1>Welcome to Tic-Tac-Toe</h1>
+      <button onClick={onStartGame}>Start Game</button>
+    </div>
+  );
+}
+
 export default function Game() {
+  const [isGameStarted, setIsGameStarted] = useState(false);
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
   const [scores, setScores] = useState({ X: 0, O: 0 });
@@ -83,21 +93,31 @@ export default function Game() {
     }));
   }
 
+  function startGame() {
+    setIsGameStarted(true);
+  }
+
   return (
     <div className="game">
-      <div className="game-board">
-        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
-      </div>
-      <div className="game-info">
-        <div className="scores">
-          <p>X : {scores.X}</p>
-          <p>O : {scores.O}</p>
-        </div>
-        <div className="buttons">
-          <button onClick={handleResetScores}>Reset Game</button>
-          <button onClick={handleNextGame}>Next Game</button>
-        </div>
-      </div>
+      {!isGameStarted ? (
+        <MainMenu onStartGame={startGame} />
+      ) : (
+        <>
+          <div className="game-board">
+            <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+          </div>
+          <div className="game-info">
+            <div className="scores">
+              <p>Player (X) : {scores.X}</p>
+              <p>Player (O) : {scores.O}</p>
+            </div>
+            <div className="buttons">
+              <button onClick={handleResetScores}>Reset Game</button>
+              <button onClick={handleNextGame}>Next Game</button>
+            </div>
+          </div>
+        </>
+      )}
 
       {/* Footer */}
       <footer className="game-footer">
