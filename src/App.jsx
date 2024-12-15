@@ -19,8 +19,8 @@ function Board({ xIsNext, squares, onPlay }) {
     onPlay(nextSquares);
   }
 
-  const { winner, winningLine } = calculateWinner(squares);
-  const status = getStatus(winner, xIsNext);
+  const { winner, winningLine, isDraw } = calculateWinner(squares);
+  const status = getStatus(winner, xIsNext, isDraw);
 
   function isWinningSquare(i) {
     return winningLine && winningLine.includes(i);
@@ -142,16 +142,25 @@ function calculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return { winner: squares[a], winningLine: [a, b, c] };
+      return { winner: squares[a], winningLine: [a, b, c], isDraw: false };
     }
   }
 
-  return { winner: null, winningLine: null };
+  // Check if all squares are filled, and if so, return a draw
+  const isBoardFull = squares.every(square => square !== null);
+  if (isBoardFull) {
+    return { winner: null, winningLine: null, isDraw: true };
+  }
+
+  return { winner: null, winningLine: null, isDraw: false };
 }
 
-function getStatus(winner, xIsNext) {
+function getStatus(winner, xIsNext, isDraw) {
   if (winner) {
     return 'Winner: ' + winner;
+  }
+  if (isDraw) {
+    return 'Draw!';
   }
   return 'Next player: ' + (xIsNext ? 'X' : 'O');
 }
